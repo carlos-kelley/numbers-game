@@ -2,7 +2,18 @@ extends Node2D
 
 var number: int = 0  # The number to display
 var radius: int = 30  # Radius of the circle
+var in_hand: bool = true  # To determine if the card is still in a player's hand
 var font = ThemeDB.fallback_font
+
+signal card_clicked(card_node)
+
+func _input(event):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		var mouse_pos = get_global_mouse_position()
+		var distance_to_center = mouse_pos.distance_to(global_position)
+		if distance_to_center <= radius:
+			emit_signal("card_clicked", self)
+
 
 
 func _draw():
@@ -11,7 +22,6 @@ func _draw():
 
 	# Calculate the size of the string
 	var string_size = font.get_string_size(str(number))
-	print(string_size)  # log the size
 
 	# Calculate the position to center the string
 	var x = -string_size.x / 2 - 7
