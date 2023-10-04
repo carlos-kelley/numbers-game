@@ -27,12 +27,12 @@ func _ready():
 func _on_card_dropped(card_node):
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P1Lane1):
 		print("Card dropped in Lane 1")
-		move_card_to_lane(card_node, lane1_position)
+
 
 	# Check collision with lane 2
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P1Lane2):
 		print("Card dropped in Lane 2")
-		move_card_to_lane(card_node, lane2_position)
+
 
 func collide_card_with_lane(card_area, lane_area):
 	return card_area.overlaps_area(lane_area)
@@ -98,12 +98,6 @@ func _on_card_clicked(card_node):
 
 
 func move_card_to_lane(card_node, lane_position):
-	# Offset based on current player
-	var offset = 50  # Change this value to adjust the separation distance
-	var position_offset = Vector2(-offset, 0) if currentPlayer == "Player1" else Vector2(offset, 0)
-
-	# Move the selected card to the chosen lane with the offset
-	card_node.position = lane_position + position_offset
 
 	# Switch the current player after a card is chosen
 	if currentPlayer == "Player1":

@@ -1,23 +1,14 @@
 extends Node2D
 
-var number: int = 0  # The number to display
-var radius: int = 30  # Radius of the circle
-var in_hand: bool = true  # To determine if the card is still in a player's hand
-var font = ThemeDB.fallback_font
-
+var number: int = 0
+var radius: int = 30
+var in_hand: bool = true
 var is_dragging = false
 var drag_offset = Vector2()
-
+var font = ThemeDB.fallback_font
 
 signal card_clicked(card_node)
 signal card_dropped(card_node)
-
-func _ready():
-	# Connect the signal to the handler
-	self.connect("card_dropped", self._on_card_dropped)
-
-func _on_card_dropped(card_node):
-	print("Card dropped signal received for card:", card_node)
 
 
 func _input(event):
@@ -37,21 +28,9 @@ func _input(event):
 		elif event is InputEventMouseMotion and is_dragging:
 			global_position = event.global_position - drag_offset
 
-
-
-
 func _draw():
-	# Draw the circle
-	draw_circle(Vector2(0, 0), radius, Color(1, 0, 0, 1))  # Red circle
+	draw_circle(Vector2(0, 0), radius, Color(1, 0, 0, 1))
 
-	# Calculate the size of the string
-	var string_size = font.get_string_size(str(number))
-
-	# Calculate the position to center the string
-	var x = -string_size.x / 2 - 7
-	var y = string_size.y / 2 + 1
-
-	# Draw the number
 	draw_string(
-		font, Vector2(x, y), str(number), HORIZONTAL_ALIGNMENT_CENTER, -1, 40, Color(1, 1, 1, 1)
+		font, Vector2(-12,13), str(number), HORIZONTAL_ALIGNMENT_CENTER, -1, 40, Color(1, 1, 1, 1)
 	)
