@@ -1,0 +1,112 @@
+[gd_scene load_steps=10 format=3 uid="uid://dmlad60oq60bv"]
+
+[ext_resource type="Script" path="res://Player1Hand.gd" id="1_cerot"]
+[ext_resource type="Script" path="res://Field.gd" id="1_orkjd"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_6nf1f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6fqi0"]
+size = Vector2(648, 161.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ydsec"]
+size = Vector2(648, 161.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7v3gs"]
+size = Vector2(648, 184.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w7ii4"]
+size = Vector2(648, 161.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q23io"]
+size = Vector2(648, 161.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tgdb3"]
+size = Vector2(648, 184.25)
+
+[node name="Field" type="Node2D"]
+position = Vector2(325, 97)
+script = ExtResource("1_orkjd")
+
+[node name="P1Hand" type="Area2D" parent="."]
+script = ExtResource("1_cerot")
+
+[node name="Sprite2D" type="Sprite2D" parent="P1Hand"]
+self_modulate = Color(1, 0.0823529, 0.156863, 1)
+position = Vector2(-0.505005, -17.2862)
+scale = Vector2(651.01, 160.572)
+texture = SubResource("CanvasTexture_6nf1f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="P1Hand"]
+position = Vector2(1, -19)
+shape = SubResource("RectangleShape2D_6fqi0")
+debug_color = Color(1, 0.00392157, 0.0588235, 0.419608)
+
+[node name="P1Lane1" type="Area2D" parent="."]
+script = ExtResource("1_cerot")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="P1Lane1"]
+position = Vector2(0, 147)
+shape = SubResource("RectangleShape2D_ydsec")
+debug_color = Color(0.839216, 0.384314, 0, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="P1Lane1"]
+self_modulate = Color(0.858824, 0.380392, 0, 1)
+position = Vector2(0.816483, 147.374)
+scale = Vector2(-645.86, -159.232)
+texture = SubResource("CanvasTexture_6nf1f")
+
+[node name="P1Lane2" type="Area2D" parent="."]
+script = ExtResource("1_cerot")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="P1Lane2"]
+position = Vector2(0, 322.875)
+shape = SubResource("RectangleShape2D_7v3gs")
+debug_color = Color(0.960784, 0.709804, 0.0470588, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="P1Lane2"]
+self_modulate = Color(0.741176, 0.580392, 0, 1)
+position = Vector2(0.816498, 320.961)
+scale = Vector2(-645.86, -186.407)
+texture = SubResource("CanvasTexture_6nf1f")
+
+[node name="P2Hand" type="Area2D" parent="."]
+script = ExtResource("1_cerot")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="P2Hand"]
+position = Vector2(0, 968)
+shape = SubResource("RectangleShape2D_w7ii4")
+debug_color = Color(0.321569, 0.501961, 0.964706, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="P2Hand"]
+self_modulate = Color(0.117647, 0.188235, 0.517647, 1)
+position = Vector2(0.816498, 967.353)
+scale = Vector2(-645.86, -157.622)
+texture = SubResource("CanvasTexture_6nf1f")
+
+[node name="P2Lane1" type="Area2D" parent="."]
+script = ExtResource("1_cerot")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="P2Lane1"]
+position = Vector2(0, 804)
+shape = SubResource("RectangleShape2D_q23io")
+debug_color = Color(0.356863, 0.607843, 0.290196, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="P2Lane1"]
+self_modulate = Color(0.388235, 0.611765, 0.298039, 1)
+position = Vector2(0.816498, 804.374)
+scale = Vector2(-645.86, -159.232)
+texture = SubResource("CanvasTexture_6nf1f")
+
+[node name="P2Lane2" type="Area2D" parent="."]
+script = ExtResource("1_cerot")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="P2Lane2"]
+position = Vector2(0, 628)
+shape = SubResource("RectangleShape2D_tgdb3")
+debug_color = Color(0.247059, 0.866667, 0.756863, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="P2Lane2"]
+self_modulate = Color(0.8, 0.427451, 0.878431, 1)
+position = Vector2(0.816498, 624.961)
+scale = Vector2(-645.86, -186.407)
+texture = SubResource("CanvasTexture_6nf1f")

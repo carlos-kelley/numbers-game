@@ -5,6 +5,8 @@ var radius: int = 30  # Radius of the circle
 var in_hand: bool = true  # To determine if the card is still in a player's hand
 var font = ThemeDB.fallback_font
 
+
+
 signal card_clicked(card_node)
 
 func _input(event):

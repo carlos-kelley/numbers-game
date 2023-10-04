@@ -10,6 +10,9 @@ var currentPlayer = "Player1"  # Initialize with Player1 as the current player
 
 var selectedCard: Node = null  # Store the selected card instance
 
+var lane1_position = Vector2(400, 300)
+var lane2_position = Vector2(800, 300)
+
 func _ready():
 	randomize()  # Initialize random seed
 	generate_cards("Player1")
@@ -39,7 +42,7 @@ func generate_cards(player):
 		child.queue_free()  # Remove existing cards if any
 
 	var cards = []
-	for i in range(3):
+	for i in range(6):
 		var number:int = randi() % 10
 		var adjective = adjectives[randi() % adjectives.size()]
 		cards.append({"number": number, "adjective": adjective})
@@ -64,26 +67,25 @@ func generate_cards(player):
 		player2_cards = cards
 
 func _on_card_clicked(card_node):
-	# Check if the clicked card belongs to the current player
-	if (currentPlayer == "Player1" and card_node.get_parent() == get_node("Player1")) or (currentPlayer == "Player2" and card_node.get_parent() == get_node("Player2")):
-		card_node.in_hand = false  # Set the card as no longer in the hand
-		move_card_to_center(card_node)
+	# Store the selected card
+	selectedCard = card_node
 
 
-func move_card_to_center(card_node):
+
+func move_card_to_lane(card_node, lane_position):
 	# Offset based on current player
 	var offset = 50  # Change this value to adjust the separation distance
 	var position_offset = Vector2(-offset, 0) if currentPlayer == "Player1" else Vector2(offset, 0)
 
-
-	# Move the selected card to the center of the screen with the offset
-	card_node.position = get_viewport_rect().size / 2 + position_offset
+	# Move the selected card to the chosen lane with the offset
+	card_node.position = lane_position + position_offset
 
 	# Switch the current player after a card is chosen
 	if currentPlayer == "Player1":
 		currentPlayer = "Player2"
 	else:
 		currentPlayer = "Player1"
+
 
 	# Check for game over condition here if needed
 	if player1_cards.size() == 0 and player2_cards.size() == 0:
