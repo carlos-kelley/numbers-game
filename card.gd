@@ -12,6 +12,13 @@ var drag_offset = Vector2()
 signal card_clicked(card_node)
 signal card_dropped(card_node)
 
+func _ready():
+	# Connect the signal to the handler
+	self.connect("card_dropped", self._on_card_dropped)
+
+func _on_card_dropped(card_node):
+	print("Card dropped signal received for card:", card_node)
+
 
 func _input(event):
 	if in_hand:
@@ -20,9 +27,11 @@ func _input(event):
 			var distance_to_center = mouse_pos.distance_to(global_position)
 			if distance_to_center <= radius:
 				if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+					print("Is dragging.")
 					is_dragging = true
 					drag_offset = mouse_pos - global_position
 				elif not event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+					print("Not dragging.")
 					is_dragging = false
 					emit_signal("card_dropped", self)
 		elif event is InputEventMouseMotion and is_dragging:
