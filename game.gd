@@ -83,7 +83,7 @@ func _on_card_dropped(card_node):
 		get_tree().get_nodes_in_group("Player1_cards").size() == 0
 		and get_tree().get_nodes_in_group("Player2_cards").size() == 0
 	):
-		print("Game Over")
+		check_game_over()
 		# TODO: disallow all card dragging
 
 
@@ -92,18 +92,15 @@ func collide_card_with_lane(card_area, lane_area):
 	return card_area.overlaps_area(lane_area)
 
 
-func generate_adjectives(player):
-	var player_adjectives = []
-
-	ADJECTIVES.shuffle()  # Shuffle the array to ensure randomness
-	for i in range(3):
-		var adjective = ADJECTIVES.pop_front()  # Take and remove the first adjective
-		player_adjectives.append(adjective)
+func generate_adjectives(player: String):
+	var adjectives = ADJECTIVES.duplicate()
+	adjectives.shuffle()
+	var selected_adjectives = adjectives.slice(0, 2)  # Select three random adjectives, current test
 
 	if player == "Player1":
-		player1_adjectives = player_adjectives
+		player1_adjectives = selected_adjectives
 	else:
-		player2_adjectives = player_adjectives
+		player2_adjectives = selected_adjectives
 
 
 func generate_cards(player):
@@ -159,3 +156,12 @@ func generate_cards(player):
 func _on_card_clicked(card_node):
 	# Store the selected card
 	selectedCard = card_node
+
+
+func check_game_over():
+	if (
+		get_tree().get_nodes_in_group("Player1_cards").size() == 0
+		and get_tree().get_nodes_in_group("Player2_cards").size() == 0
+	):
+		print("Game Over")
+		# Additional logic to disallow all card dragging
