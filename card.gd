@@ -10,6 +10,7 @@ var start_position: Vector2 = Vector2.ZERO
 var font = ThemeDB.fallback_font
 var adjective: String = ""
 var player: String = ""
+var is_draggable: bool = true
 
 signal card_clicked(card_node)
 signal card_dropped(card_node)
@@ -24,6 +25,8 @@ const TEXT_COLOR: Color = Color(1, 1, 1, 1)
 
 func _input(event: InputEvent) -> void:
 	var mouse_pos: Vector2 = get_global_mouse_position()
+	if is_draggable == false:
+		return
 
 	# Check if mouse is within the card's radius
 	# These two events are apparently firing alternately

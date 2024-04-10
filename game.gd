@@ -42,6 +42,7 @@ func _on_card_dropped(card_node):
 			card_node.position = card_node.start_position
 		else:
 			print("Card dropped in P1 Lane 1")
+			card_node.is_draggable = false
 			card_node.remove_from_group(currentPlayer + "_cards")
 			card_node.add_to_group("P1Lane1_cards")
 			var p1_lane1_total = calculate_lane_total("P1Lane1")
@@ -55,6 +56,7 @@ func _on_card_dropped(card_node):
 			card_node.position = card_node.start_position
 		else:
 			print("Card dropped in P1 Lane 2")
+			card_node.is_draggable = false
 			card_node.remove_from_group(currentPlayer + "_cards")
 			card_node.add_to_group("P1Lane2_cards")
 			var p1_lane2_total = calculate_lane_total("P1Lane2")
@@ -68,6 +70,7 @@ func _on_card_dropped(card_node):
 			card_node.position = card_node.start_position
 		else:
 			print("Card dropped in P2 Lane 1")
+			card_node.is_draggable = false
 			card_node.remove_from_group(currentPlayer + "_cards")
 			card_node.add_to_group("P2Lane1_cards")
 			var p2_lane1_total = calculate_lane_total("P2Lane1")
@@ -81,6 +84,7 @@ func _on_card_dropped(card_node):
 			card_node.position = card_node.start_position
 		else:
 			print("Card dropped in P2 Lane 2")
+			card_node.is_draggable = false
 			card_node.remove_from_group(currentPlayer + "_cards")
 			card_node.add_to_group("P2Lane2_cards")
 			var p2_lane2_total = calculate_lane_total("P2Lane2")
