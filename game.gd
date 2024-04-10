@@ -81,6 +81,7 @@ func _on_card_dropped(card_node):
 		and get_tree().get_nodes_in_group("Player2_cards").size() == 0
 	):
 		print("Game Over")
+		# TODO: disallow all card dragging
 
 
 func collide_card_with_lane(card_area, lane_area):
