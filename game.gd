@@ -35,24 +35,28 @@ func _on_card_dropped(card_node):
 			print ("Not Player 2's lane")
 		else:
 			print("Card dropped in P1 Lane 1")
+			currentPlayer = "Player2"
 
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P1Lane2):
 		if currentPlayer == "Player2":
 			print ("Not Player 2's lane")
 		else:
 			print("Card dropped in P1 Lane 2")
+			currentPlayer = "Player2"
 
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P2Lane1):
 		if currentPlayer == "Player1":
 			print ("Not Player 1's lane")
 		else:
 			print("Card dropped in P2 Lane 1")
+			currentPlayer = "Player1"
 
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P2Lane2):
 		if currentPlayer == "Player1":
 			print ("Not Player 1's lane")
 		else:
 			print("Card dropped in P2 Lane 2")
+			currentPlayer = "Player1"
 
 
 func collide_card_with_lane(card_area, lane_area):
