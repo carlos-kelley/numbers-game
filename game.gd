@@ -8,6 +8,7 @@ var player2_adjectives = []
 var card_spacing = 90  # Horizontal spacing between cards
 var currentPlayer = "Player1"
 
+
 var selectedCard: Node = null
 
 const LANE1_POSITION = Vector2(400, 300)
@@ -46,7 +47,7 @@ func _on_card_dropped(card_node):
 			print ("Not Player 1's turn")
 		else:
 			print("Card dropped in P2 Lane 1")
-	
+
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P2Lane2):
 		if currentPlayer == "Player1":
 			print ("Not Player 1's turn")
@@ -86,17 +87,19 @@ func generate_cards(player):
 		print ("Number: ", number)
 		var adjective = adjectives[randi() % adjectives.size()]
 		print ("Adjective: ", adjective)
-		cards.append({"number": number, "adjective": adjective, "player": player})
+		# cards.append({"number": number, "adjective": adjective, "player": player})
 		print ("Cards: ", cards)
 
 		var card_instance = load("res://Card.tscn").instantiate()
 
-		card_instance.number = number  # Set the number to be displayed
-		card_instance.name = "Card" + str(i + 1) 
+		card_instance.number = number
+		card_instance.adjective = adjective
+		card_instance.player = player
+		card_instance.name = "Card" + str(i + 1)
 
 		# Add the card to the "cards" group
 		# TODO: Currently missing P2 Card6
-		card_instance.add_to_group("cards") 
+		card_instance.add_to_group("cards")
 		# Log the "cards" group
 		print("Cards group:", get_tree().get_nodes_in_group("cards"))
 		# Set the position based on the player's turn and card index

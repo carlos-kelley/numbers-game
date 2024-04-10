@@ -1,11 +1,15 @@
 extends Node2D
 
+@onready var game = get_node("/root/Game")
+
 var number: int = 0
 var radius: int = 30
 var in_hand: bool = true
 var is_dragging = false
 var drag_offset = Vector2()
 var font = ThemeDB.fallback_font
+var adjective: String = ""
+var player: String = ""
 
 signal card_clicked(card_node)
 signal card_dropped(card_node)
@@ -29,9 +33,14 @@ func _input(event):
 	if event is InputEventMouseButton and mouse_pos.distance_to(global_position) <= radius:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
-				print("Is dragging.")
-				is_dragging = true
-				drag_offset = mouse_pos - global_position
+				print("self.player is:", self)
+				# Make sure the player of this card is the current player
+				# Do this by checking if the player property of card is equal to the player variable in game.gd
+				if self.player == game.currentPlayer:
+
+					print("Is dragging.")
+					# is_dragging = true
+					# drag_offset = mouse_pos - global_position
 			else:
 				print("Not dragging.")
 				is_dragging = false
