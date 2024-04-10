@@ -33,6 +33,8 @@ func _on_card_dropped(card_node):
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P1Lane1):
 		if currentPlayer == "Player2":
 			print ("Not Player 2's lane")
+			# Move the card back to the player's hand
+			card_node.position = card_node.start_position
 		else:
 			print("Card dropped in P1 Lane 1")
 			currentPlayer = "Player2"
@@ -40,6 +42,8 @@ func _on_card_dropped(card_node):
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P1Lane2):
 		if currentPlayer == "Player2":
 			print ("Not Player 2's lane")
+			# Move the card back to the player's hand
+			card_node.position = card_node.start_position
 		else:
 			print("Card dropped in P1 Lane 2")
 			currentPlayer = "Player2"
@@ -47,6 +51,8 @@ func _on_card_dropped(card_node):
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P2Lane1):
 		if currentPlayer == "Player1":
 			print ("Not Player 1's lane")
+			# Move the card back to the player's hand
+			card_node.position = card_node.start_position
 		else:
 			print("Card dropped in P2 Lane 1")
 			currentPlayer = "Player1"
@@ -54,6 +60,8 @@ func _on_card_dropped(card_node):
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P2Lane2):
 		if currentPlayer == "Player1":
 			print ("Not Player 1's lane")
+			# Move the card back to the player's hand
+			card_node.position = card_node.start_position
 		else:
 			print("Card dropped in P2 Lane 2")
 			currentPlayer = "Player1"
@@ -100,6 +108,13 @@ func generate_cards(player):
 		card_instance.adjective = adjective
 		card_instance.player = player
 		card_instance.name = "Card" + str(i + 1)
+
+		# Set the start_position property of the card node
+		if player == "Player1":
+			card_instance.start_position = Vector2(100 + i * card_spacing, 1050)
+		else:
+			card_instance.start_position = Vector2(100 + i * card_spacing, 100)
+			card_instance.position = card_instance.start_position
 
 		# Add the card to the "cards" group
 		# TODO: Currently missing P2 Card6

@@ -10,6 +10,8 @@ var drag_offset = Vector2()
 var font = ThemeDB.fallback_font
 var adjective: String = ""
 var player: String = ""
+var start_position: Vector2 = Vector2()
+
 
 signal card_clicked(card_node)
 signal card_dropped(card_node)
