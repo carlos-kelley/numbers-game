@@ -1,5 +1,7 @@
 extends Node2D
 
+var CardManager = load("res://card_manager.gd").new()
+
 var ADJECTIVES: Array[String] = ["Fast", "Strong", "Smart", "Dumb", "Easy", "Poopy"]
 var CARD_SPACING: int = 90  # Horizontal spacing between cards
 const LANE1_POSITION: Vector2 = Vector2(400, 300)
@@ -29,8 +31,16 @@ func _ready():
 
 func prepare_players():
 	for player in ["Player1", "Player2"]:
-		generate_cards(player)
-		generate_adjectives(player)
+		var player_node = get_node(player)
+		var cards = CardManager.generate_cards(player, player_node)
+		var adjectives = CardManager.generate_adjectives(player)
+
+		if player == "Player1":
+			player1_cards = cards
+			player1_adjectives = adjectives
+		else:
+			player2_cards = cards
+			player2_adjectives = adjectives
 
 
 # TODO: Cards must be associated with player
@@ -109,68 +119,6 @@ func calculate_lane_total(lane):
 func collide_card_with_lane(card_area, lane_area):
 	print("In collide_card_with_lane")
 	return card_area.overlaps_area(lane_area)
-
-
-func generate_adjectives(player: String):
-	var adjectives = ADJECTIVES.duplicate()
-	adjectives.shuffle()
-	var selected_adjectives = adjectives.slice(0, 2)  # Select three random adjectives, current test
-
-	if player == "Player1":
-		player1_adjectives = selected_adjectives
-	else:
-		player2_adjectives = selected_adjectives
-
-
-func generate_cards(player):
-	var player_node = get_node(player)
-	for child in player_node.get_children():
-		child.queue_free()  # Remove existing cards if any
-
-	var cards = []
-	for i in range(6):
-		print("Generating card ", i + 1)
-		# Generate a random number between 0 and 9 and select a random adjective
-		var number: int = randi() % 10
-		print("Number: ", number)
-		var adjective = ADJECTIVES[randi() % ADJECTIVES.size()]
-		print("Adjective: ", adjective)
-		# cards.append({"number": number, "adjective": adjective, "player": player})
-		print("Cards: ", cards)
-
-		var card_instance = load("res://Card.tscn").instantiate()
-
-		card_instance.number = number
-		card_instance.adjective = adjective
-		card_instance.player = player
-		card_instance.name = "Card" + str(i + 1)
-
-		# Set the start_position property of the card node
-		if player == "Player1":
-			card_instance.start_position = Vector2(100 + i * CARD_SPACING, 1050)
-		else:
-			card_instance.start_position = Vector2(100 + i * CARD_SPACING, 100)
-			card_instance.position = card_instance.start_position
-
-		# Add the card to the "cards" group
-		# TODO: Currently missing P2 Card6
-		card_instance.add_to_group(player + "_cards")
-		# Log the "cards" group
-		print("Cards group:", get_tree().get_nodes_in_group("cards"))
-		# Set the position based on the player's turn and card index
-		if player == "Player1":
-			card_instance.position = Vector2(100 + i * CARD_SPACING, 1050)
-		else:
-			card_instance.position = Vector2(100 + i * CARD_SPACING, 100)
-
-		player_node.add_child(card_instance)
-		card_instance.connect("card_clicked", self._on_card_clicked)
-
-	if player == "Player1":
-		player1_cards = cards
-	else:
-		player2_cards = cards
-
 
 func _on_card_clicked(card_node):
 	# Store the selected card

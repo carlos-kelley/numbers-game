@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cml8xaywuaixt"]
+[gd_scene load_steps=4 format=3 uid="uid://cml8xaywuaixt"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_e4r7k"]
 [ext_resource type="PackedScene" uid="uid://dmlad60oq60bv" path="res://Field.tscn" id="2_sx36q"]
+[ext_resource type="PackedScene" uid="uid://brgoejp2kn2il" path="res://HUD.tscn" id="3_vaanc"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_e4r7k")
@@ -11,3 +12,5 @@ script = ExtResource("1_e4r7k")
 [node name="Player2" type="Node" parent="."]
 
 [node name="Field" parent="." instance=ExtResource("2_sx36q")]
+
+[node name="HUD" parent="." instance=ExtResource("3_vaanc")]
