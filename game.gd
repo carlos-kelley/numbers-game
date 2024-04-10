@@ -3,15 +3,16 @@ extends Node2D
 var adjectives = ["Fast", "Strong", "Smart", "Dumb", "Easy", "Poopy"]
 var player1_cards = []
 var player2_cards = []
-var player1_adjectives = []  # Store Player1's adjectives
-var player2_adjectives = []  # Store Player2's adjectives
-var card_spacing = 150  # Horizontal spacing between cards
+var player1_adjectives = []
+var player2_adjectives = []
+var card_spacing = 90  # Horizontal spacing between cards
 var currentPlayer = "Player1"
 
 var selectedCard: Node = null
 
-var lane1_position = Vector2(400, 300)
-var lane2_position = Vector2(800, 300)
+const LANE1_POSITION = Vector2(400, 300)
+const LANE2_POSITION = Vector2(800, 300)
+
 
 func _ready():
 	randomize()
@@ -24,10 +25,12 @@ func _ready():
 	for card in get_tree().get_nodes_in_group("cards"):
 		card.connect("card_dropped", self._on_card_dropped)
 
+	print("Game started. Current player is: ", currentPlayer)
+
+
 func _on_card_dropped(card_node):
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P1Lane1):
 		print("Card dropped in Lane 1")
-
 
 	# Check collision with lane 2
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P1Lane2):
@@ -36,11 +39,6 @@ func _on_card_dropped(card_node):
 
 func collide_card_with_lane(card_area, lane_area):
 	return card_area.overlaps_area(lane_area)
-
-
-
-
-
 
 
 func generate_adjectives(player):
@@ -64,21 +62,28 @@ func generate_cards(player):
 
 	var cards = []
 	for i in range(6):
-		var number:int = randi() % 10
+		print("Generating card ", i + 1)
+		# Generate a random number between 0 and 9 and select a random adjective
+		var number: int = randi() % 10
+		print ("Number: ", number)
 		var adjective = adjectives[randi() % adjectives.size()]
+		print ("Adjective: ", adjective)
 		cards.append({"number": number, "adjective": adjective})
+		print ("Cards: ", cards)
 
 		var card_instance = load("res://Card.tscn").instantiate()
 
 		card_instance.number = number  # Set the number to be displayed
-		card_instance.name = "Card" + str(i + 1)
+		card_instance.name = "Card" + str(i + 1) 
 
 		# Add the card to the "cards" group
-		card_instance.add_to_group("cards")  # <-- This line ensures the card is in the group
-
+		# TODO: Currently missing P2 Card6
+		card_instance.add_to_group("cards") 
+		# Log the "cards" group
+		print("Cards group:", get_tree().get_nodes_in_group("cards"))
 		# Set the position based on the player's turn and card index
 		if player == "Player1":
-			card_instance.position = Vector2(100 + i * card_spacing, 600)
+			card_instance.position = Vector2(100 + i * card_spacing, 1050)
 		else:
 			card_instance.position = Vector2(100 + i * card_spacing, 100)
 
@@ -96,17 +101,14 @@ func _on_card_clicked(card_node):
 	selectedCard = card_node
 
 
-
 func move_card_to_lane(card_node, lane_position):
-
 	# Switch the current player after a card is chosen
 	if currentPlayer == "Player1":
 		currentPlayer = "Player2"
+		print("Player 1 has played a card")
 	else:
 		currentPlayer = "Player1"
+		print("Player not changed")
 
-
-	# Check for game over condition here if needed
 	if player1_cards.size() == 0 and player2_cards.size() == 0:
 		print("Game Over")
-
