@@ -1,25 +1,22 @@
 extends Node2D
 
-var adjectives = ["Fast", "Strong", "Smart", "Dumb", "Easy", "Poopy"]
+var ADJECTIVES: Array[String] = ["Fast", "Strong", "Smart", "Dumb", "Easy", "Poopy"]
+var CARD_SPACING: int = 90  # Horizontal spacing between cards
+const LANE1_POSITION: Vector2 = Vector2(400, 300)
+const LANE2_POSITION: Vector2 = Vector2(800, 300)
+
+var currentPlayer: String = "Player1"
+var selectedCard: Node = null
+
 var player1_cards = []
 var player2_cards = []
 var player1_adjectives = []
 var player2_adjectives = []
-var card_spacing = 90  # Horizontal spacing between cards
-var currentPlayer = "Player1"
-
-var selectedCard: Node = null
-
-const LANE1_POSITION = Vector2(400, 300)
-const LANE2_POSITION = Vector2(800, 300)
 
 
 func _ready():
 	randomize()
-	generate_cards("Player1")
-	generate_cards("Player2")
-	generate_adjectives("Player1")
-	generate_adjectives("Player2")
+	prepare_players()
 
 	# Connect the card_dropped signal
 	for card in get_tree().get_nodes_in_group("Player1_cards"):
@@ -28,6 +25,12 @@ func _ready():
 		card.connect("card_dropped", self._on_card_dropped)
 
 	print("Game started. Current player is: ", currentPlayer)
+
+
+func prepare_players():
+	for player in ["Player1", "Player2"]:
+		generate_cards(player)
+		generate_adjectives(player)
 
 
 # TODO: Cards must be associated with player
@@ -92,9 +95,9 @@ func collide_card_with_lane(card_area, lane_area):
 func generate_adjectives(player):
 	var player_adjectives = []
 
-	adjectives.shuffle()  # Shuffle the array to ensure randomness
+	ADJECTIVES.shuffle()  # Shuffle the array to ensure randomness
 	for i in range(3):
-		var adjective = adjectives.pop_front()  # Take and remove the first adjective
+		var adjective = ADJECTIVES.pop_front()  # Take and remove the first adjective
 		player_adjectives.append(adjective)
 
 	if player == "Player1":
@@ -114,7 +117,7 @@ func generate_cards(player):
 		# Generate a random number between 0 and 9 and select a random adjective
 		var number: int = randi() % 10
 		print("Number: ", number)
-		var adjective = adjectives[randi() % adjectives.size()]
+		var adjective = ADJECTIVES[randi() % ADJECTIVES.size()]
 		print("Adjective: ", adjective)
 		# cards.append({"number": number, "adjective": adjective, "player": player})
 		print("Cards: ", cards)
@@ -128,9 +131,9 @@ func generate_cards(player):
 
 		# Set the start_position property of the card node
 		if player == "Player1":
-			card_instance.start_position = Vector2(100 + i * card_spacing, 1050)
+			card_instance.start_position = Vector2(100 + i * CARD_SPACING, 1050)
 		else:
-			card_instance.start_position = Vector2(100 + i * card_spacing, 100)
+			card_instance.start_position = Vector2(100 + i * CARD_SPACING, 100)
 			card_instance.position = card_instance.start_position
 
 		# Add the card to the "cards" group
@@ -140,9 +143,9 @@ func generate_cards(player):
 		print("Cards group:", get_tree().get_nodes_in_group("cards"))
 		# Set the position based on the player's turn and card index
 		if player == "Player1":
-			card_instance.position = Vector2(100 + i * card_spacing, 1050)
+			card_instance.position = Vector2(100 + i * CARD_SPACING, 1050)
 		else:
-			card_instance.position = Vector2(100 + i * card_spacing, 100)
+			card_instance.position = Vector2(100 + i * CARD_SPACING, 100)
 
 		player_node.add_child(card_instance)
 		card_instance.connect("card_clicked", self._on_card_clicked)
