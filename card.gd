@@ -12,7 +12,6 @@ var adjective: String = ""
 var player: String = ""
 var is_draggable: bool = true
 
-signal card_clicked(card_node)
 signal card_dropped(card_node)
 
 # Define constants for text drawing
