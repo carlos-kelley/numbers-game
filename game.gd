@@ -27,17 +27,23 @@ func _ready():
 
 	print("Game started. Current player is: ", currentPlayer)
 
-
+# TODO: Card only gets recognized in the first two lanes, which are P2's
 func _on_card_dropped(card_node):
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P1Lane1):
-		print("Card dropped in Lane 1")
+		print("Card dropped in P2 Lane 1")
 
-	# Check collision with lane 2
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P1Lane2):
-		print("Card dropped in Lane 2")
+		print("Card dropped in P2 Lane 2")
+
+	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P2Lane1):
+		print("Card dropped in P1 Lane 1")
+	
+	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P2Lane2):
+		print("Card dropped in P1 Lane 2")
 
 
 func collide_card_with_lane(card_area, lane_area):
+	print("In collide_card_with_lane")
 	return card_area.overlaps_area(lane_area)
 
 
