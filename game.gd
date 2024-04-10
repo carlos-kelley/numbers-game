@@ -8,7 +8,6 @@ var player2_adjectives = []
 var card_spacing = 90  # Horizontal spacing between cards
 var currentPlayer = "Player1"
 
-
 var selectedCard: Node = null
 
 const LANE1_POSITION = Vector2(400, 300)
@@ -23,48 +22,65 @@ func _ready():
 	generate_adjectives("Player2")
 
 	# Connect the card_dropped signal
-	for card in get_tree().get_nodes_in_group("cards"):
+	for card in get_tree().get_nodes_in_group("Player1_cards"):
+		card.connect("card_dropped", self._on_card_dropped)
+	for card in get_tree().get_nodes_in_group("Player2_cards"):
 		card.connect("card_dropped", self._on_card_dropped)
 
 	print("Game started. Current player is: ", currentPlayer)
+
 
 # TODO: Cards must be associated with player
 func _on_card_dropped(card_node):
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P1Lane1):
 		if currentPlayer == "Player2":
-			print ("Not Player 2's lane")
+			print("Not Player 2's lane")
 			# Move the card back to the player's hand
 			card_node.position = card_node.start_position
 		else:
 			print("Card dropped in P1 Lane 1")
+			card_node.remove_from_group(currentPlayer + "_cards")
+			card_node.add_to_group("Field_cards")
 			currentPlayer = "Player2"
 
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P1Lane2):
 		if currentPlayer == "Player2":
-			print ("Not Player 2's lane")
+			print("Not Player 2's lane")
 			# Move the card back to the player's hand
 			card_node.position = card_node.start_position
 		else:
 			print("Card dropped in P1 Lane 2")
+			card_node.remove_from_group(currentPlayer + "_cards")
+			card_node.add_to_group("Field_cards")
 			currentPlayer = "Player2"
 
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P2Lane1):
 		if currentPlayer == "Player1":
-			print ("Not Player 1's lane")
+			print("Not Player 1's lane")
 			# Move the card back to the player's hand
 			card_node.position = card_node.start_position
 		else:
 			print("Card dropped in P2 Lane 1")
+			card_node.remove_from_group(currentPlayer + "_cards")
+			card_node.add_to_group("Field_cards")
 			currentPlayer = "Player1"
 
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P2Lane2):
 		if currentPlayer == "Player1":
-			print ("Not Player 1's lane")
+			print("Not Player 1's lane")
 			# Move the card back to the player's hand
 			card_node.position = card_node.start_position
 		else:
 			print("Card dropped in P2 Lane 2")
+			card_node.remove_from_group(currentPlayer + "_cards")
+			card_node.add_to_group("Field_cards")
 			currentPlayer = "Player1"
+
+	if (
+		get_tree().get_nodes_in_group("Player1_cards").size() == 0
+		and get_tree().get_nodes_in_group("Player2_cards").size() == 0
+	):
+		print("Game Over")
 
 
 func collide_card_with_lane(card_area, lane_area):
@@ -96,11 +112,11 @@ func generate_cards(player):
 		print("Generating card ", i + 1)
 		# Generate a random number between 0 and 9 and select a random adjective
 		var number: int = randi() % 10
-		print ("Number: ", number)
+		print("Number: ", number)
 		var adjective = adjectives[randi() % adjectives.size()]
-		print ("Adjective: ", adjective)
+		print("Adjective: ", adjective)
 		# cards.append({"number": number, "adjective": adjective, "player": player})
-		print ("Cards: ", cards)
+		print("Cards: ", cards)
 
 		var card_instance = load("res://Card.tscn").instantiate()
 
@@ -118,7 +134,7 @@ func generate_cards(player):
 
 		# Add the card to the "cards" group
 		# TODO: Currently missing P2 Card6
-		card_instance.add_to_group("cards")
+		card_instance.add_to_group(player + "_cards")
 		# Log the "cards" group
 		print("Cards group:", get_tree().get_nodes_in_group("cards"))
 		# Set the position based on the player's turn and card index
@@ -139,16 +155,3 @@ func generate_cards(player):
 func _on_card_clicked(card_node):
 	# Store the selected card
 	selectedCard = card_node
-
-
-func move_card_to_lane(card_node, lane_position):
-	# Switch the current player after a card is chosen
-	if currentPlayer == "Player1":
-		currentPlayer = "Player2"
-		print("Player 1 has played a card")
-	else:
-		currentPlayer = "Player1"
-		print("Player not changed")
-
-	if player1_cards.size() == 0 and player2_cards.size() == 0:
-		print("Game Over")
