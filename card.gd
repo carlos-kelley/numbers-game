@@ -39,8 +39,8 @@ func _input(event):
 				if self.player == game.currentPlayer:
 
 					print("Is dragging.")
-					# is_dragging = true
-					# drag_offset = mouse_pos - global_position
+					is_dragging = true
+					drag_offset = mouse_pos - global_position
 			else:
 				print("Not dragging.")
 				is_dragging = false
