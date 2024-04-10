@@ -184,3 +184,18 @@ func check_game_over():
 	):
 		print("Game Over")
 		# Additional logic to disallow all card dragging
+
+		var p1_lane1_total = calculate_lane_total("P1Lane1")
+		var p1_lane2_total = calculate_lane_total("P1Lane2")
+		var p2_lane1_total = calculate_lane_total("P2Lane1")
+		var p2_lane2_total = calculate_lane_total("P2Lane2")
+
+		var p1_total = p1_lane1_total + p1_lane2_total
+		var p2_total = p2_lane1_total + p2_lane2_total
+
+		if p1_total > p2_total:
+			print("Player 1 wins!")
+		elif p1_total < p2_total:
+			print("Player 2 wins!")
+		else:
+			print("It's a draw!")

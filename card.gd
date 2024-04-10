@@ -24,13 +24,13 @@ const TEXT_COLOR: Color = Color(1, 1, 1, 1)
 
 
 func _input(event: InputEvent) -> void:
+	# TODO: refactor
 	var mouse_pos: Vector2 = get_global_mouse_position()
 	if is_draggable == false:
 		return
 
 	# Check if mouse is within the card's radius
 	# These two events are apparently firing alternately
-	# TODO: refactor the chain of four ifs and the else
 	if event is InputEventMouseButton and mouse_pos.distance_to(global_position) <= radius:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
