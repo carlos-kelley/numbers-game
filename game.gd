@@ -43,7 +43,9 @@ func _on_card_dropped(card_node):
 		else:
 			print("Card dropped in P1 Lane 1")
 			card_node.remove_from_group(currentPlayer + "_cards")
-			card_node.add_to_group("Field_cards")
+			card_node.add_to_group("P1Lane1_cards")
+			var p1_lane1_total = calculate_lane_total("P1Lane1")
+			print("Total value of cards in P1 Lane 1: ", p1_lane1_total)
 			currentPlayer = "Player2"
 
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P1Lane2):
@@ -54,7 +56,9 @@ func _on_card_dropped(card_node):
 		else:
 			print("Card dropped in P1 Lane 2")
 			card_node.remove_from_group(currentPlayer + "_cards")
-			card_node.add_to_group("Field_cards")
+			card_node.add_to_group("P1Lane2_cards")
+			var p1_lane2_total = calculate_lane_total("P1Lane2")
+			print("Total value of cards in P1 Lane 2: ", p1_lane2_total)
 			currentPlayer = "Player2"
 
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P2Lane1):
@@ -65,7 +69,9 @@ func _on_card_dropped(card_node):
 		else:
 			print("Card dropped in P2 Lane 1")
 			card_node.remove_from_group(currentPlayer + "_cards")
-			card_node.add_to_group("Field_cards")
+			card_node.add_to_group("P2Lane1_cards")
+			var p2_lane1_total = calculate_lane_total("P2Lane1")
+			print("Total value of cards in P2 Lane 1: ", p2_lane1_total)
 			currentPlayer = "Player1"
 
 	if collide_card_with_lane(card_node.get_node("CardArea"), $Field/P2Lane2):
@@ -76,7 +82,9 @@ func _on_card_dropped(card_node):
 		else:
 			print("Card dropped in P2 Lane 2")
 			card_node.remove_from_group(currentPlayer + "_cards")
-			card_node.add_to_group("Field_cards")
+			card_node.add_to_group("P2Lane2_cards")
+			var p2_lane2_total = calculate_lane_total("P2Lane2")
+			print("Total value of cards in P2 Lane 2: ", p2_lane2_total)
 			currentPlayer = "Player1"
 
 	if (
@@ -85,6 +93,13 @@ func _on_card_dropped(card_node):
 	):
 		check_game_over()
 		# TODO: disallow all card dragging
+
+
+func calculate_lane_total(lane):
+	var total = 0
+	for card in get_tree().get_nodes_in_group(lane + "_cards"):
+		total += card.number  # Assuming the card's value is stored in the 'number' property
+	return total
 
 
 func collide_card_with_lane(card_area, lane_area):
