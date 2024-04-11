@@ -1,14 +1,15 @@
+class_name Card
 extends Node2D
 
 @onready var game = get_node("/root/Game")
 
-var number: int = 0
+var value: int = 0
 var radius: int = 30
 var is_dragging: bool = false
 var drag_offset: Vector2 = Vector2.ZERO
 var start_position: Vector2 = Vector2.ZERO
 var font = ThemeDB.fallback_font
-var adjective: String = ""
+var adjective = NoneAdjective.new()
 var player: String = ""
 var is_draggable: bool = true
 
@@ -51,5 +52,5 @@ func _input(event: InputEvent) -> void:
 func _draw() -> void:
 	draw_circle(Vector2.ZERO, radius, Color(1, 0, 0, 1))
 	draw_string(
-		font, TEXT_POSITION, str(number), TEXT_ALIGNMENT, TEXT_MAX_WIDTH, TEXT_SIZE, TEXT_COLOR
+		font, TEXT_POSITION, str(value), TEXT_ALIGNMENT, TEXT_MAX_WIDTH, TEXT_SIZE, TEXT_COLOR
 	)

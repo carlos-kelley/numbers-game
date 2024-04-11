@@ -1,9 +1,8 @@
-extends Node2D
-
-# Makes this script static?
+# Makes this script static
 class_name GameLogic
 
-var resource_loader = preload("res://resource_loader.gd").new()
+extends Node2D
+
 
 signal game_over
 
