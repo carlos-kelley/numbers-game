@@ -12,8 +12,8 @@ func show_message(text: String):
 	$Message.show()
 
 
-func update_score(score: int):
-	$P1ScoreLabel.text = str(score)
+# func update_score(score: int):
+# 	$P1ScoreLabel.text = str(score)
 
 
 func _on_game_over():

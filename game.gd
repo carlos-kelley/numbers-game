@@ -3,6 +3,8 @@ extends Node2D
 # Makes this script static?
 class_name GameLogic
 
+var resource_loader = preload("res://resource_loader.gd").new()
+
 signal game_over
 
 # Loads in lane nodes when ready
@@ -39,14 +41,12 @@ func prepare_players():
 	for player in PLAYERS:
 		var player_node = get_node(player)
 		var cards = CardManager.generate_cards(player, player_node)
-		var adjectives = CardManager.generate_adjectives(player)
 
 		if player == "Player1":
 			player1_cards = cards
-			player1_adjectives = adjectives
+
 		else:
 			player2_cards = cards
-			player2_adjectives = adjectives
 
 
 func connect_card_signals():

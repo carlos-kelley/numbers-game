@@ -1,13 +1,7 @@
 extends Node
 
-var ADJECTIVES: Array[String] = ["Fast", "Strong", "Smart", "Dumb", "Easy", "Poopy"]
+var ADJECTIVES: Array[String] = ["Fast", "Impatient", "Strong", "Smart", "Dumb", "Easy", "Poopy"]
 var CARD_SPACING: int = 90  # Horizontal spacing between cards
-
-func generate_adjectives(player: String):
-    var adjectives = ADJECTIVES.duplicate()
-    adjectives.shuffle()
-    var selected_adjectives = adjectives.slice(0, 2)  # Select three random adjectives, current test
-    return selected_adjectives
 
 func generate_cards(player, player_node):
     for child in player_node.get_children():
