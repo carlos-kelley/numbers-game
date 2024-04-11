@@ -3,6 +3,8 @@ extends Node2D
 # Makes this script static?
 class_name GameLogic
 
+signal game_over
+
 # Loads in lane nodes when ready
 @onready var lanes = {
 	"P1Lane1": $Field/P1Lane1,
@@ -86,6 +88,7 @@ func check_game_over():
 		get_tree().get_nodes_in_group("Player1_cards").size() == 0
 		and get_tree().get_nodes_in_group("Player2_cards").size() == 0
 	):
+		emit_signal("game_over")
 		print("Game Over")
 		disable_all_dragging()
 

@@ -1,20 +1,22 @@
 extends CanvasLayer
 
 
-func show_message(text):
+func _ready():
+	# Connects to game_over signal from Game node
+	var game_node: Node = get_node("/root/Game")
+	game_node.connect("game_over", self._on_game_over)
+
+
+func show_message(text: String):
 	$Message.text = text
 	$Message.show()
-	$MessageTimer.start()
 
-func _on_message_timer_timeout():
-	$Message.hide()
 
-func update_score(score):
+func update_score(score: int):
 	$P1ScoreLabel.text = str(score)
 
-func show_game_over():
+
+func _on_game_over():
 	show_message("Game Over")
-	# Wait until the MessageTimer has counted down.
-	await $MessageTimer.timeout
-	# Restart the game.
+	await get_tree().create_timer(2.0).timeout
 	get_tree().reload_current_scene()

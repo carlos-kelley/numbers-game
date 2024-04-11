@@ -15,6 +15,7 @@ var is_draggable: bool = true
 signal card_dropped(card_node)
 
 # Define constants for text drawing
+# Why is this the text position?
 const TEXT_POSITION: Vector2 = Vector2(-12, 13)
 const TEXT_ALIGNMENT: int = HORIZONTAL_ALIGNMENT_CENTER
 const TEXT_MAX_WIDTH: int = -1
