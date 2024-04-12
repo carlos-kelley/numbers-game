@@ -4,6 +4,8 @@ extends Node2D
 var description: String = ""
 var effect: Effect = NoneEffect.new()
 var scope: Scope = NoneScope.new()
+var start_position: Vector2 = Vector2.ZERO
+
 
 
 func _ready() -> void:
