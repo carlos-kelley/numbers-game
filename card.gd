@@ -48,10 +48,11 @@ func _input(event: InputEvent) -> void:
 			if event.button_index == MOUSE_BUTTON_LEFT:
 				if event.pressed:
 					# Make sure the player of this card is the current player
-					# if self.player == game.currentPlayer:
-					print("Is dragging.")
-					is_dragging = true
-					drag_offset = mouse_pos - global_position
+					var player_of_card: Player = get_parent()
+					if player_of_card == game.current_player:
+						print("Is dragging.")
+						is_dragging = true
+						drag_offset = mouse_pos - global_position
 				else:
 					print("Not dragging.")
 					is_dragging = false
