@@ -3,6 +3,7 @@ extends Area2D
 
 var cards: Array[Card] = []
 var total: int = 0
+var player: Player = NonePlayer.new()
 
 
 func add_card(card: Card) -> void:

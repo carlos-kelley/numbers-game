@@ -9,9 +9,7 @@ signal game_over
 @onready var player_2: Player = $P2
 
 @onready var current_player: Player = player_1
-# var valid_player_for_lane: Dictionary = {
-# 	P1Lane1: player_1, P1Lane2: player_1, P2Lane1: player_2, P2Lane2: player_2
-# }
+
 var total: int = 0
 var turn: int = 0
 # Get all lanes in scene
@@ -30,6 +28,10 @@ func prepare_players() -> void:
 	player_1.lanes = [$Field/P1Lane1, $Field/P1Lane2]
 	player_2.lanes = [$Field/P2Lane1, $Field/P2Lane2]
 	print("P1 Lanes ", player_1.lanes)
+	for lane: Lane in player_1.lanes:
+		lane.player = player_1
+	for lane: Lane in player_2.lanes:
+		lane.player = player_2
 
 	# Get the player nodes and give them cards
 	for player: Player in [player_1, player_2]:
@@ -54,6 +56,10 @@ func _on_card_dropped(card: Card) -> void:
 	print("Overlapping areas: ", overlapping_areas)
 
 	for area: Lane in overlapping_areas:
+		if area.player != current_player:
+			print("Card dropped in opponent's lane")
+			card.position = card.start_position
+			return
 		# if area in lanes
 		print("Card dropped in", area.name)
 		handle_card_placement(card, area)
