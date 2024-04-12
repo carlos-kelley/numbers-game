@@ -1,7 +1,8 @@
 class_name Card
 extends Sprite2D
 
-signal card_dropped(card_node)
+# What is this param?
+signal card_dropped(card_node: Node2D)
 
 var texture_paths: Dictionary = {}
 

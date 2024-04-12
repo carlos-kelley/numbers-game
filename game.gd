@@ -37,32 +37,32 @@ func prepare_players() -> void:
 		print(player.name, "has cards ", player.cards)
 
 
-func connect_card_signals():
-	var player_card_groups: Array[String] = ["Player1_cards", "Player2_cards"]
-	for group in player_card_groups:
-		for card in get_tree().get_nodes_in_group(group):
+func connect_card_signals() -> void:
+	for player: Player in [player_1, player_2]:
+		for card: Card in player.cards:
 			card.connect("card_dropped", self._on_card_dropped)
 
 
 func _on_card_dropped(card_node):
-	for lane in lanes:
-		var field_path = lanes[lane]
-		var card_area = card_node.get_node("CardArea")
+	print("Card dropped")
+	# for lane in lanes:
+	# 	var field_path = lanes[lane]
+	# 	var card_area = card_node.get_node("CardArea")
 
-		if card_area.overlaps_area(field_path):
+	# 	if card_area.overlaps_area(field_path):
 			# if current_player != VALID_PLAYER_FOR_LANE[lane]:
 			# print("Not", VALID_PLAYER_FOR_LANE[lane], "'s lane")
 			# card_node.position = card_node.start_position
 			# return
-			print("Card dropped in", lane)
-			handle_card_placement(card_node, lane)
-			print("Total value of cards in", lane, ":", calculate_lane_total(lane))
-			current_player = opponent[current_player]  # Switch player
-			check_game_over()
-			return
+			# print("Card dropped in", lane)
+			# handle_card_placement(card_node, lane)
+			# print("Total value of cards in", lane, ":", calculate_lane_total(lane))
+			# current_player = opponent[current_player]  # Switch player
+			# check_game_over()
+			# return
 
-	print("Card dropped in an invalid area")  # Handle case where no collision is detected with any lane
-	card_node.position = card_node.start_position
+	# print("Card dropped in an invalid area")  # Handle case where no collision is detected with any lane
+	# card_node.position = card_node.start_position
 
 
 func handle_card_placement(card_node, lane):
