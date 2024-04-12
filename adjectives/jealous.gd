@@ -1,9 +1,9 @@
 class_name Jealous
 extends Adjective
 
-func _init():
+func _init() -> void:
     name = "Jealous"
-    description = "Destroy ALL other cards of the same value."
+    description = "Destroy all other numbers of the same value."
 
 func apply_effect(card: Node2D, game: Node2D) -> void:
     for lane in game.lanes:

@@ -13,7 +13,7 @@ func _process(delta):
 "
 
 [sub_resource type="GDScript" id="GDScript_1uvyo"]
-script/source = "extends Area2D
+script/source = "extends Lane
 
 
 # Called when the node enters the scene tree for the first time.

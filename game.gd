@@ -3,8 +3,10 @@ class_name GameLogic
 
 extends Node2D
 
-
 signal game_over
+
+var player_1: Player = Player.new("Player1")
+var player_2: Player = Player.new("Player2")
 
 # Loads in lane nodes when ready
 @onready var lanes = {
@@ -13,8 +15,8 @@ signal game_over
 	"P2Lane1": $Field/P2Lane1,
 	"P2Lane2": $Field/P2Lane2,
 }
-var CardManager = load("res://card_manager.gd").new()
-var currentPlayer: String = "Player1"
+# var card_manager = load("res://card_manager.gd").new()
+var current_player: Player = player_1
 
 # Redundant?
 var player1_cards = []
@@ -22,30 +24,25 @@ var player2_cards = []
 var player1_adjectives = []
 var player2_adjectives = []
 
-const PLAYERS: Array[String] = ["Player1", "Player2"]
-const OPPONENT = {"Player1": "Player2", "Player2": "Player1"}
-const VALID_PLAYER_FOR_LANE = {
-	"P1Lane1": "Player1", "P1Lane2": "Player1", "P2Lane1": "Player2", "P2Lane2": "Player2"
-}
+var opponent: Dictionary = {player_1: player_2, player_2: player_1}
+# var valid_player_for_lane: Dictionary = {
+# 	P1Lane1: player_1, P1Lane2: player_1, P2Lane1: player_2, P2Lane2: player_2
+# }
 
 
-func _ready():
-	randomize()
+func _ready() -> void:
 	prepare_players()
 	connect_card_signals()
-	print("Game started. Current player is: ", currentPlayer)
+	print("Game started. Current player is: ", current_player)
 
 
-func prepare_players():
-	for player in PLAYERS:
-		var player_node = get_node(player)
-		var cards = CardManager.generate_cards(player, player_node)
-
-		if player == "Player1":
-			player1_cards = cards
-
-		else:
-			player2_cards = cards
+func prepare_players() -> void:
+	# Get the player nodes and give them cards
+	for player: Player in [player_1, player_2]:
+		# var player_node = get_node(player)
+		var cards: Array[Card] = CardManager.generate_cards(player)
+		player.cards = cards
+		print(player.name, "has cards", player.cards)
 
 
 func connect_card_signals():
@@ -61,14 +58,14 @@ func _on_card_dropped(card_node):
 		var card_area = card_node.get_node("CardArea")
 
 		if card_area.overlaps_area(field_path):
-			if currentPlayer != VALID_PLAYER_FOR_LANE[lane]:
-				print("Not", VALID_PLAYER_FOR_LANE[lane], "'s lane")
-				card_node.position = card_node.start_position
-				return
+			# if current_player != VALID_PLAYER_FOR_LANE[lane]:
+			# print("Not", VALID_PLAYER_FOR_LANE[lane], "'s lane")
+			# card_node.position = card_node.start_position
+			# return
 			print("Card dropped in", lane)
 			handle_card_placement(card_node, lane)
 			print("Total value of cards in", lane, ":", calculate_lane_total(lane))
-			currentPlayer = OPPONENT[currentPlayer]  # Switch player
+			current_player = opponent[current_player]  # Switch player
 			check_game_over()
 			return
 
@@ -78,7 +75,7 @@ func _on_card_dropped(card_node):
 
 func handle_card_placement(card_node, lane):
 	card_node.is_draggable = false
-	card_node.remove_from_group(currentPlayer + "_cards")
+	# card_node.remove_from_group(current_player + "_cards")
 	card_node.add_to_group(lane + "_cards")
 
 

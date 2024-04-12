@@ -7,7 +7,7 @@ func _ready():
 	game_node.connect("game_over", self._on_game_over)
 
 
-func show_message(text: String):
+func show_message(text: String) -> void:
 	$Message.text = text
 	$Message.show()
 
@@ -16,7 +16,9 @@ func show_message(text: String):
 # 	$P1ScoreLabel.text = str(score)
 
 
-func _on_game_over():
+func _on_game_over() -> void:
 	show_message("Game Over")
 	await get_tree().create_timer(2.0).timeout
-	get_tree().reload_current_scene()
+	var error: Error = get_tree().reload_current_scene()
+	if error != OK:
+		print("Failed to reload scene, error code: ", error)

@@ -1,38 +1,32 @@
+class_name CardManager
 extends Node
 
-var ADJECTIVES: Array[String] = ["Fast", "Impatient", "Strong", "Smart", "Dumb", "Easy", "Poopy"]
-var CARD_SPACING: int = 90  # Horizontal spacing between cards
+const CARD_SPACING: int = 90  # Horizontal spacing between cards
 
-func generate_cards(player, player_node):
-    for child in player_node.get_children():
-        child.queue_free()  # Remove existing cards if any
 
-    var cards = []
-    for i in range(6):
-        var number: int = randi() % 10
-        var adjective = ADJECTIVES[randi() % ADJECTIVES.size()]
+static func generate_cards(player: Player) -> Array:
+	print("Generating cards for " + player.name)
+	for card: Card in player.cards:
+		card.queue_free()  # Remove existing cards if any
 
-        var card_instance = load("res://Card.tscn").instantiate()
+	player.cards.clear()
 
-        card_instance.number = number
-        card_instance.adjective = adjective
-        card_instance.player = player
-        card_instance.name = "Card" + str(i + 1)
+	for i: int in range(6):
+		var value: int = randi() % 10
 
-        if player == "Player1":
-            card_instance.start_position = Vector2(100 + i * CARD_SPACING, 1050)
-        else:
-            card_instance.start_position = Vector2(100 + i * CARD_SPACING, 100)
-            card_instance.position = card_instance.start_position
+		var card_instance: Card = Card.new()
 
-        card_instance.add_to_group(player + "_cards")
+		card_instance.value = value
+		card_instance.name = "Card" + str(i + 1)  # Is this needed by the editor?
 
-        if player == "Player1":
-            card_instance.position = Vector2(100 + i * CARD_SPACING, 1050)
-        else:
-            card_instance.position = Vector2(100 + i * CARD_SPACING, 100)
+		if player.name == "Player1":
+			card_instance.start_position = Vector2(100 + i * CARD_SPACING, 1050)
+		else:
+			card_instance.start_position = Vector2(100 + i * CARD_SPACING, 100)
+			card_instance.position = card_instance.start_position
 
-        player_node.add_child(card_instance)
-        cards.append(card_instance)
+		card_instance.add_to_group(player.name + "_cards")
+		player.cards.append(card_instance)
+		player.add_child(card_instance)
 
-    return cards
+	return player.cards
