@@ -45,6 +45,11 @@ choose_card={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="cards"
+2d_physics/layer_2="field"
+
 [rendering]
 
 renderer/rendering_method="mobile"

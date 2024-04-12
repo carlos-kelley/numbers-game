@@ -65,6 +65,7 @@ shape = SubResource("RectangleShape2D_6fqi0")
 debug_color = Color(1, 0.00392157, 0.0588235, 0.419608)
 
 [node name="P2Lane1" type="Area2D" parent="."]
+collision_layer = 2
 script = SubResource("GDScript_1uvyo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="P2Lane1"]
@@ -79,6 +80,7 @@ scale = Vector2(-645.86, -159.232)
 texture = SubResource("CanvasTexture_6nf1f")
 
 [node name="P2Lane2" type="Area2D" parent="."]
+collision_layer = 2
 script = SubResource("GDScript_1uvyo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="P2Lane2"]
@@ -122,6 +124,7 @@ scale = Vector2(-645.86, -159.232)
 texture = SubResource("CanvasTexture_6nf1f")
 
 [node name="P1Lane2" type="Area2D" parent="."]
+collision_layer = 2
 script = SubResource("GDScript_1uvyo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="P1Lane2"]

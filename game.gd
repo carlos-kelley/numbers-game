@@ -7,19 +7,13 @@ signal game_over
 
 @onready var player_1: Player = $P1
 @onready var player_2: Player = $P2
-var opponent: Dictionary = {player_1: player_2, player_2: player_1}
+
 @onready var current_player: Player = player_1
 # var valid_player_for_lane: Dictionary = {
 # 	P1Lane1: player_1, P1Lane2: player_1, P2Lane1: player_2, P2Lane2: player_2
 # }
-
-# Loads in lane nodes when ready
-# @onready var lanes: Dictionary = {
-# 	"P1Lane1": $Field/P1Lane1,
-# 	"P1Lane2": $Field/P1Lane2,
-# 	"P2Lane1": $Field/P2Lane1,
-# 	"P2Lane2": $Field/P2Lane2,
-# }
+var total: int = 0
+var lanes: Array[Lane] = [$P1Lane1, $P1Lane2, $P2Lane1, $P2Lane2]
 
 
 func _ready() -> void:
@@ -54,67 +48,60 @@ func _on_card_dropped(card: Card) -> void:
 	for area: Lane in overlapping_areas:
 		# if area in lanes
 		print("Card dropped in", area.name)
-		handle_card_placement(card, area.name)
-		print("Total value of cards in", area.name, ":", calculate_lane_total(area.name))
-		current_player = opponent[current_player]  # Switch player
+		handle_card_placement(card, area)
+		# print("Total value of cards in", area.name, ":", calculate_lane_total(area.name))
+		switch_player()
 		return
 
 	# If the card was not dropped in any lane, return it to its start position
 	card.position = card.start_position
 
 
-func handle_card_placement(card, lane):
+func handle_card_placement(card: Card, lane: Lane) -> void:
 	card.is_draggable = false
-	# card_node.remove_from_group(current_player + "_cards")
-	card.add_to_group(lane + "_cards")
+	card.remove_child(card)
+	lane.add_card(card)
 
 
-func check_game_over():
-	if (
-		get_tree().get_nodes_in_group("Player1_cards").size() == 0
-		and get_tree().get_nodes_in_group("Player2_cards").size() == 0
-	):
-		emit_signal("game_over")
+func switch_player() -> void:
+	if current_player == player_1:
+		current_player = player_2
+	else:
+		current_player = player_1
+
+
+func check_game_over() -> void:
+	# if player's cards are 0
+	if player_1.cards.size() == 0 and player_2.cards.size() == 0:
+		var e: Error = emit_signal("game_over")
+		if e != OK:
+			print("Failed to emit signal, error code: ", e)
 		print("Game Over")
-		disable_all_dragging()
-
-		var scores = calculate_total_scores()
-		announce_winner(scores)
+		# disable_all_dragging()
+		announce_winner()
 
 
-func disable_all_dragging():
-	var cards = get_tree().get_nodes_in_group("cards")
-	for card in cards:
-		card.set_draggable(false)
+# func disable_all_dragging():
+# 	var cards = get_tree().get_nodes_in_group("cards")
+# 	for card in cards:
+# 		card.set_draggable(false)
 
 
-func calculate_total_scores():
-	var player_scores = {"Player1": 0, "Player2": 0}
-	var lane_assignments = {"Player1": ["P1Lane1", "P1Lane2"], "Player2": ["P2Lane1", "P2Lane2"]}
-
-	for player in lane_assignments:
-		var player_lanes = lane_assignments[player]
-		for lane in player_lanes:
-			player_scores[player] += calculate_lane_total(lane)
-
-	return player_scores
-
-
-func calculate_lane_total(lane):
+func calculate_player_total(player: Player) -> int:
 	var total = 0
-	var cards = get_tree().get_nodes_in_group(lane + "_cards")
-	for card in cards:
-		total += card.number  # Assuming 'number' property holds card value
+	# Get all lanes in scene
+	for lane: Lane in lanes:
+		total += lane.total
+
 	return total
 
 
-func announce_winner(scores):
-	var p1_total = scores["Player1"]
-	var p2_total = scores["Player2"]
-
-	if p1_total > p2_total:
-		print("Player 1 wins!")
-	elif p1_total < p2_total:
-		print("Player 2 wins!")
+func announce_winner() -> void:
+	var player_1_total: int = calculate_player_total(player_1)
+	var player_2_total: int = calculate_player_total(player_2)
+	if player_1_total > player_2_total:
+		print("Player 1 wins with a total of ", player_1_total)
+	elif player_2_total > player_1_total:
+		print("Player 2 wins with a total of ", player_2_total)
 	else:
-		print("It's a draw!")
+		print("It's a tie with a total of ", player_1_total)
