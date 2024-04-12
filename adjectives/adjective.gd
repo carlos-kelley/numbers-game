@@ -8,8 +8,12 @@ var scope: Scope = NoneScope.new()
 
 func _ready() -> void:
 	print("Adjective ready", name)
+
 	var label: Label = Label.new()
+	label.add_theme_font_size_override("font_size", 32)
+
 	label.text = name
+
 	add_child(label)
 
 #func apply_effect(card: Node2D, game: Node2D) -> void:
