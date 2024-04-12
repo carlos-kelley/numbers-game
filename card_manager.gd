@@ -19,6 +19,8 @@ static func generate_cards(player: Player) -> Array:
 		# Set card properties
 		card_instance.value = value
 		card_instance.name = "Card" + str(i + 1)
+		card_instance.player = player
+		print("Card instance player is, ", card_instance.player)
 
 		if player.name == "Player1":
 			print("In if for Player1")

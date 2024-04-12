@@ -6,8 +6,18 @@ signal card_dropped(card_node)
 var texture_paths: Dictionary = {}
 
 # Value has setter so we can update texture when it changes
+var _player: Player = NonePlayer.new()
+var player: Player:
+	get:
+		return _player
+	set(new_player):
+		_player.remove_child(self)
+		_player = new_player
+		_player.add_child(self)
 var _value: int = 0
 var value: int:
+	get:
+		return _value
 	set(new_value):
 		_value = new_value
 		# This texture is from Node2D
@@ -17,7 +27,6 @@ var drag_offset: Vector2 = Vector2.ZERO
 var start_position: Vector2 = Vector2.ZERO
 # var font: Font = ThemeDB.fallback_font
 var adjective: Adjective = NoneAdjective.new()
-var player: String = ""
 var is_draggable: bool = true
 
 
@@ -47,9 +56,15 @@ func _input(event: InputEvent) -> void:
 		if get_rect().has_point(to_local(mouse_pos)):
 			if event.button_index == MOUSE_BUTTON_LEFT:
 				if event.pressed:
+					print(
+						"Pressed, card's player: ",
+						player,
+						", current player: ",
+						game.current_player
+					)
 					# Make sure the player of this card is the current player
-					var player_of_card: Player = get_parent()
-					if player_of_card == game.current_player:
+					# Make sure to access the property, not the setter
+					if player == game.current_player:
 						print("Is dragging.")
 						is_dragging = true
 						drag_offset = mouse_pos - global_position

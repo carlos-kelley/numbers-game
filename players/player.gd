@@ -1,6 +1,5 @@
-extends Node
-
 class_name Player
+extends Node
 
 var cards: Array[Card] = []
 var score: int = 0
