@@ -1,4 +1,6 @@
 # Makes this script static
+@tool
+
 class_name GameLogic
 
 extends Node2D
@@ -7,6 +9,7 @@ signal game_over
 
 var player_1: Player = Player.new("Player1")
 var player_2: Player = Player.new("Player2")
+var card_manager: CardManager = CardManager.new()
 
 # Loads in lane nodes when ready
 @onready var lanes = {
@@ -39,10 +42,11 @@ func _ready() -> void:
 func prepare_players() -> void:
 	# Get the player nodes and give them cards
 	for player: Player in [player_1, player_2]:
-		# var player_node = get_node(player)
+		add_child(player)
+		print("Is Player in tree?: ", player.is_inside_tree())
 		var cards: Array[Card] = CardManager.generate_cards(player)
 		player.cards = cards
-		print(player.name, "has cards", player.cards)
+		print(player.name, "has cards ", player.cards)
 
 
 func connect_card_signals():

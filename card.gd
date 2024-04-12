@@ -1,56 +1,31 @@
 class_name Card
-extends Node2D
+extends Sprite2D
+# Preload textures in a dictionary
+var texture_paths: Dictionary = {}
 
-@onready var game = get_node("/root/Game")
-
-var value: int = 0
-var radius: int = 30
+var value: int:
+	set(new_value):
+		_value = new_value
+		texture = texture_paths[_value]
 var is_dragging: bool = false
 var drag_offset: Vector2 = Vector2.ZERO
 var start_position: Vector2 = Vector2.ZERO
-var font = ThemeDB.fallback_font
-var adjective = NoneAdjective.new()
+# var font: Font = ThemeDB.fallback_font
+var adjective: Adjective = NoneAdjective.new()
 var player: String = ""
 var is_draggable: bool = true
-
-signal card_dropped(card_node)
-
-# Define constants for text drawing
-# Why is this the text position?
-const TEXT_POSITION: Vector2 = Vector2(-12, 13)
-const TEXT_ALIGNMENT: int = HORIZONTAL_ALIGNMENT_CENTER
-const TEXT_MAX_WIDTH: int = -1
-const TEXT_SIZE: int = 40
-const TEXT_COLOR: Color = Color(1, 1, 1, 1)
+var _value: int = 0
 
 
-func _input(event: InputEvent) -> void:
-	# TODO: refactor
-	var mouse_pos: Vector2 = get_global_mouse_position()
-	if is_draggable == false:
-		return
-
-	# Check if mouse is within the card's radius
-	# These two events are apparently firing alternately
-	if event is InputEventMouseButton and mouse_pos.distance_to(global_position) <= radius:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
-				# Make sure the player of this card is the current player
-				if self.player == game.currentPlayer:
-					print("Is dragging.")
-					is_dragging = true
-					drag_offset = mouse_pos - global_position
-			else:
-				print("Not dragging.")
-				is_dragging = false
-				emit_signal("card_dropped", self)
-
-	elif event is InputEventMouseMotion and is_dragging:
-		global_position = mouse_pos - drag_offset
+func _init() -> void:
+	print("Card init.")
+	for i: int in range(10):
+		texture_paths[i] = load("res://images/" + str(i) + ".png")
+		print(texture_paths[i])
 
 
-func _draw() -> void:
-	draw_circle(Vector2.ZERO, radius, Color(1, 0, 0, 1))
-	draw_string(
-		font, TEXT_POSITION, str(value), TEXT_ALIGNMENT, TEXT_MAX_WIDTH, TEXT_SIZE, TEXT_COLOR
-	)
+@onready var game: GameLogic = get_node("/root/Game")
+
+
+func _ready() -> void:
+	print("Card ready.")
