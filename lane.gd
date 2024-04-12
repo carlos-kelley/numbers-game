@@ -1,6 +1,6 @@
+class_name Lane
 extends Area2D
 
-class_name Lane
 
 var cards: Array[Card] = []
 

@@ -1,8 +1,8 @@
 class_name Card
-extends Sprite2D
+extends Area2D
 
 # What is this param?
-signal card_dropped(card_node: Node2D)
+signal card_dropped
 
 var texture_paths: Dictionary = {}
 
@@ -22,7 +22,7 @@ var value: int:
 	set(new_value):
 		_value = new_value
 		# This texture is from Node2D
-		texture = texture_paths[_value]
+		$Sprite2D.texture = texture_paths[value]
 var is_dragging: bool = false
 var drag_offset: Vector2 = Vector2.ZERO
 var start_position: Vector2 = Vector2.ZERO
@@ -53,7 +53,7 @@ func _input(event: InputEvent) -> void:
 	# Check if mouse is within the card's radius
 	# These two events are apparently firing alternately
 	if event is InputEventMouseButton:
-		if get_rect().has_point(to_local(mouse_pos)):
+		if $Sprite2D.get_rect().has_point(to_local(mouse_pos)):
 			if event.button_index == MOUSE_BUTTON_LEFT:
 				if event.pressed:
 					print(

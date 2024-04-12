@@ -14,12 +14,12 @@ var opponent: Dictionary = {player_1: player_2, player_2: player_1}
 # }
 
 # Loads in lane nodes when ready
-@onready var lanes: Dictionary = {
-	"P1Lane1": $Field/P1Lane1,
-	"P1Lane2": $Field/P1Lane2,
-	"P2Lane1": $Field/P2Lane1,
-	"P2Lane2": $Field/P2Lane2,
-}
+# @onready var lanes: Dictionary = {
+# 	"P1Lane1": $Field/P1Lane1,
+# 	"P1Lane2": $Field/P1Lane2,
+# 	"P2Lane1": $Field/P2Lane1,
+# 	"P2Lane2": $Field/P2Lane2,
+# }
 
 
 func _ready() -> void:
@@ -40,35 +40,33 @@ func prepare_players() -> void:
 func connect_card_signals() -> void:
 	for player: Player in [player_1, player_2]:
 		for card: Card in player.cards:
-			card.connect("card_dropped", self._on_card_dropped)
+			var e: Error = card.connect("card_dropped", _on_card_dropped)
+			if e != OK:
+				print("Failed to connect signal, error code: ", e)
 
 
-func _on_card_dropped(card_node):
+# Instance that emits the signal is automatically passed as first argument
+func _on_card_dropped(card: Card) -> void:
 	print("Card dropped")
-	# for lane in lanes:
-	# 	var field_path = lanes[lane]
-	# 	var card_area = card_node.get_node("CardArea")
+	var overlapping_areas = card.get_overlapping_areas()
+	print("Overlapping areas: ", overlapping_areas)
 
-	# 	if card_area.overlaps_area(field_path):
-			# if current_player != VALID_PLAYER_FOR_LANE[lane]:
-			# print("Not", VALID_PLAYER_FOR_LANE[lane], "'s lane")
-			# card_node.position = card_node.start_position
-			# return
-			# print("Card dropped in", lane)
-			# handle_card_placement(card_node, lane)
-			# print("Total value of cards in", lane, ":", calculate_lane_total(lane))
-			# current_player = opponent[current_player]  # Switch player
-			# check_game_over()
-			# return
+	for area: Lane in overlapping_areas:
+		# if area in lanes
+		print("Card dropped in", area.name)
+		handle_card_placement(card, area.name)
+		print("Total value of cards in", area.name, ":", calculate_lane_total(area.name))
+		current_player = opponent[current_player]  # Switch player
+		return
 
-	# print("Card dropped in an invalid area")  # Handle case where no collision is detected with any lane
-	# card_node.position = card_node.start_position
+	# If the card was not dropped in any lane, return it to its start position
+	card.position = card.start_position
 
 
-func handle_card_placement(card_node, lane):
-	card_node.is_draggable = false
+func handle_card_placement(card, lane):
+	card.is_draggable = false
 	# card_node.remove_from_group(current_player + "_cards")
-	card_node.add_to_group(lane + "_cards")
+	card.add_to_group(lane + "_cards")
 
 
 func check_game_over():

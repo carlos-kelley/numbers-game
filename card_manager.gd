@@ -14,7 +14,7 @@ static func generate_cards(player: Player) -> Array:
 	for i: int in range(6):
 		# Initialize card with random value
 		var value: int = randi() % 10
-		var card_instance: Card = Card.new()
+		var card_instance: Card = preload("res://Card.tscn").instantiate()
 
 		# Set card properties
 		card_instance.value = value

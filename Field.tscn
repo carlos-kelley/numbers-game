@@ -107,6 +107,7 @@ scale = Vector2(-645.86, -157.622)
 texture = SubResource("CanvasTexture_6nf1f")
 
 [node name="P1Lane1" type="Area2D" parent="."]
+collision_layer = 2
 script = SubResource("GDScript_1uvyo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="P1Lane1"]
