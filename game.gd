@@ -7,8 +7,10 @@ signal game_over
 
 @onready var player_1: Player = $P1
 @onready var player_2: Player = $P2
-
 @onready var current_player: Player = player_1
+
+var card_manager: CardManager = CardManager.new()
+var adjective_manager: AdjectiveManager = AdjectiveManager.new()
 
 var total: int = 0
 var turn: int = 0
@@ -36,7 +38,11 @@ func prepare_players() -> void:
 	# Get the player nodes and give them cards
 	for player: Player in [player_1, player_2]:
 		print("Is Player in tree?: ", player.is_inside_tree())
-		var cards: Array[Card] = CardManager.generate_cards(player)
+		var cards: Array[Card] = card_manager.generate_cards(player)
+		var adjectives: Array = adjective_manager.generate_adjectives()
+		for adjective: Adjective in adjectives:
+			print("Adjective: ", adjective)
+			add_child(adjective)
 		player.cards = cards
 		print(player.name, "has cards ", player.cards)
 
@@ -56,7 +62,8 @@ func _on_card_dropped(card: Card) -> void:
 	print("Overlapping areas: ", overlapping_areas)
 
 	for area: Lane in overlapping_areas:
-		if area.player != current_player:
+		#if player.lanes does not contain area
+		if current_player.lanes.find(area) == -1:
 			print("Card dropped in opponent's lane")
 			card.position = card.start_position
 			return

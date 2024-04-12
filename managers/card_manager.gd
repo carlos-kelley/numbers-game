@@ -4,7 +4,7 @@ extends Node
 const CARD_SPACING: int = 90  # Horizontal spacing between cards
 
 
-static func generate_cards(player: Player) -> Array:
+func generate_cards(player: Player) -> Array:
 	print("Generating cards for " + player.name)
 	for card: Card in player.cards:
 		card.queue_free()  # Remove existing cards if any
