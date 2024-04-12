@@ -13,7 +13,11 @@ signal game_over
 # 	P1Lane1: player_1, P1Lane2: player_1, P2Lane1: player_2, P2Lane2: player_2
 # }
 var total: int = 0
-var lanes: Array[Lane] = [$P1Lane1, $P1Lane2, $P2Lane1, $P2Lane2]
+var turn: int = 0
+# Get all lanes in scene
+@onready var lanes: Array[Node] = get_node("Field").get_children().filter(
+	func(lane: Lane) -> bool: return lane is Lane
+)
 
 
 func _ready() -> void:
@@ -23,6 +27,10 @@ func _ready() -> void:
 
 
 func prepare_players() -> void:
+	player_1.lanes = [$Field/P1Lane1, $Field/P1Lane2]
+	player_2.lanes = [$Field/P2Lane1, $Field/P2Lane2]
+	print("P1 Lanes ", player_1.lanes)
+
 	# Get the player nodes and give them cards
 	for player: Player in [player_1, player_2]:
 		print("Is Player in tree?: ", player.is_inside_tree())
@@ -49,8 +57,11 @@ func _on_card_dropped(card: Card) -> void:
 		# if area in lanes
 		print("Card dropped in", area.name)
 		handle_card_placement(card, area)
+		turn += 1
+		print("Turn: ", turn)
 		# print("Total value of cards in", area.name, ":", calculate_lane_total(area.name))
 		switch_player()
+		check_game_over()
 		return
 
 	# If the card was not dropped in any lane, return it to its start position
@@ -71,8 +82,7 @@ func switch_player() -> void:
 
 
 func check_game_over() -> void:
-	# if player's cards are 0
-	if player_1.cards.size() == 0 and player_2.cards.size() == 0:
+	if turn == 12:
 		var e: Error = emit_signal("game_over")
 		if e != OK:
 			print("Failed to emit signal, error code: ", e)
@@ -89,9 +99,11 @@ func check_game_over() -> void:
 
 func calculate_player_total(player: Player) -> int:
 	var total = 0
-	# Get all lanes in scene
-	for lane: Lane in lanes:
+
+	for lane: Lane in player.lanes:
+		print("Lane: ", lane.name)
 		total += lane.total
+		print("Total: ", total)
 
 	return total
 

@@ -3,6 +3,8 @@ extends Node
 
 var cards: Array[Card] = []
 var score: int = 0
+var lanes: Array[Lane] = []
+
 
 func add_card(card) -> void:
 	cards.append(card)
