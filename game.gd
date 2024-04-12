@@ -21,6 +21,7 @@ var turn: int = 0
 
 
 func _ready() -> void:
+	add_child(adjective_manager)
 	prepare_players()
 	connect_card_signals()
 	print("Game started. Current player is: ", current_player)
@@ -40,9 +41,9 @@ func prepare_players() -> void:
 		print("Is Player in tree?: ", player.is_inside_tree())
 		var cards: Array[Card] = card_manager.generate_cards(player)
 		var adjectives: Array = adjective_manager.generate_adjectives()
-		for adjective: Adjective in adjectives:
-			print("Adjective: ", adjective)
-			add_child(adjective)
+		# for adjective: Adjective in adjectives:
+		# 	print("Adjective: ", adjective)
+		# 	add_child(adjective)
 		player.cards = cards
 		print(player.name, "has cards ", player.cards)
 
