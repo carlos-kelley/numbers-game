@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cml8xaywuaixt"]
+[gd_scene load_steps=7 format=3 uid="uid://cml8xaywuaixt"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_e4r7k"]
+[ext_resource type="Script" path="res://players/player.gd" id="2_fpo7y"]
 [ext_resource type="PackedScene" uid="uid://dmlad60oq60bv" path="res://Field.tscn" id="2_sx36q"]
 [ext_resource type="PackedScene" uid="uid://brgoejp2kn2il" path="res://HUD.tscn" id="3_vaanc"]
 [ext_resource type="Script" path="res://Sprite2D.gd" id="4_mo6i2"]
@@ -9,12 +10,18 @@
 [node name="Game" type="Node2D"]
 script = ExtResource("1_e4r7k")
 
+[node name="P1" type="Node" parent="."]
+script = ExtResource("2_fpo7y")
+
+[node name="P2" type="Node" parent="."]
+script = ExtResource("2_fpo7y")
+
 [node name="Field" parent="." instance=ExtResource("2_sx36q")]
 
 [node name="HUD" parent="." instance=ExtResource("3_vaanc")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(290, 535)
-rotation = 18676.2
+rotation = 21915.5
 texture = ExtResource("4_myg5m")
 script = ExtResource("4_mo6i2")

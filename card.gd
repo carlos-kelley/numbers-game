@@ -34,7 +34,6 @@ func _init() -> void:
 	print("Card init.")
 	for i: int in range(10):
 		texture_paths[i] = load("res://images/" + str(i) + ".png")
-		print(texture_paths[i])
 
 
 @onready var game: GameLogic = get_node("/root/Game")

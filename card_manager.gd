@@ -22,7 +22,7 @@ static func generate_cards(player: Player) -> Array:
 		card_instance.player = player
 		print("Card instance player is, ", card_instance.player)
 
-		if player.name == "Player1":
+		if player.name == "P1":
 			print("In if for Player1")
 			card_instance.start_position = Vector2(100 + i * CARD_SPACING, 1050)
 			print("Card start position: " + str(card_instance.start_position))

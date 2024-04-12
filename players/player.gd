@@ -4,11 +4,6 @@ extends Node
 var cards: Array[Card] = []
 var score: int = 0
 
-
-func _init(player_name: String) -> void:
-	self.name = player_name
-
-
 func add_card(card) -> void:
 	cards.append(card)
 

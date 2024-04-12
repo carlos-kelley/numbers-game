@@ -1,36 +1,25 @@
 # Makes this script static
-@tool
-
 class_name GameLogic
 
 extends Node2D
 
 signal game_over
 
-var player_1: Player = Player.new("Player1")
-var player_2: Player = Player.new("Player2")
-var card_manager: CardManager = CardManager.new()
+@onready var player_1: Player = $P1
+@onready var player_2: Player = $P2
+var opponent: Dictionary = {player_1: player_2, player_2: player_1}
+@onready var current_player: Player = player_1
+# var valid_player_for_lane: Dictionary = {
+# 	P1Lane1: player_1, P1Lane2: player_1, P2Lane1: player_2, P2Lane2: player_2
+# }
 
 # Loads in lane nodes when ready
-@onready var lanes = {
+@onready var lanes: Dictionary = {
 	"P1Lane1": $Field/P1Lane1,
 	"P1Lane2": $Field/P1Lane2,
 	"P2Lane1": $Field/P2Lane1,
 	"P2Lane2": $Field/P2Lane2,
 }
-# var card_manager = load("res://card_manager.gd").new()
-var current_player: Player = player_1
-
-# Redundant?
-var player1_cards = []
-var player2_cards = []
-var player1_adjectives = []
-var player2_adjectives = []
-
-var opponent: Dictionary = {player_1: player_2, player_2: player_1}
-# var valid_player_for_lane: Dictionary = {
-# 	P1Lane1: player_1, P1Lane2: player_1, P2Lane1: player_2, P2Lane2: player_2
-# }
 
 
 func _ready() -> void:
@@ -42,7 +31,6 @@ func _ready() -> void:
 func prepare_players() -> void:
 	# Get the player nodes and give them cards
 	for player: Player in [player_1, player_2]:
-		add_child(player)
 		print("Is Player in tree?: ", player.is_inside_tree())
 		var cards: Array[Card] = CardManager.generate_cards(player)
 		player.cards = cards
