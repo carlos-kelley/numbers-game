@@ -1,5 +1,5 @@
 class_name Lane
-extends Area2D
+extends HBoxContainer
 
 var cards: Array[Card] = []
 var total: int = 0

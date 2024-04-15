@@ -9,6 +9,7 @@
 - Stealing cards?
 - Or just give a pool of like 12 adjs and players pick but you don't know which they picked. Or 6 with 3 distributed randomly but you can always check which 6 might exist. Or 12 or whatever.
 - What if turn selection alternated Num Adj, so for example you ight be forced to pick a negative adjective?
+- Copy an adjective
 
 ## General
 

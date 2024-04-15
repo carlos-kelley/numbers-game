@@ -4,8 +4,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p0jwh"]
 
-[node name="Card" type="Area2D"]
-collision_mask = 2
+[node name="Card" type="TextureButton"]
 script = ExtResource("1_irwqu")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

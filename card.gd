@@ -1,8 +1,8 @@
 class_name Card
-extends Area2D
+extends TextureButton
 
-# What is this param?
 signal card_dropped
+var draggable: Draggable
 
 var texture_paths: Dictionary = {}
 
@@ -42,36 +42,7 @@ func _init() -> void:
 
 func _ready() -> void:
 	print("Card ready.")
-
-
-func _input(event: InputEvent) -> void:
-	# TODO: refactor
-	var mouse_pos: Vector2 = get_global_mouse_position()
-	if is_draggable == false:
-		return
-
-	# Check if mouse is within the card's radius
-	# These two events are apparently firing alternately
-	if event is InputEventMouseButton:
-		if $Sprite2D.get_rect().has_point(to_local(mouse_pos)):
-			if event.button_index == MOUSE_BUTTON_LEFT:
-				if event.pressed:
-					print(
-						"Pressed, card's player: ",
-						player,
-						", current player: ",
-						game.current_player
-					)
-					# Make sure the player of this card is the current player
-					# Make sure to access the property, not the setter
-					if player == game.current_player:
-						print("Is dragging.")
-						is_dragging = true
-						drag_offset = mouse_pos - global_position
-				else:
-					print("Not dragging.")
-					is_dragging = false
-					emit_signal("card_dropped", self)
-
-	elif event is InputEventMouseMotion and is_dragging:
-		global_position = mouse_pos - drag_offset
+	#draggable is a new getting passed in the sprite2d child of the card
+	draggable = Draggable.new(self)
+	print("Card draaggable is ", self)
+	draggable.owner = self

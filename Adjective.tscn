@@ -1,11 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://kslg1ckjpbfr"]
+[gd_scene load_steps=3 format=3 uid="uid://kslg1ckjpbfr"]
 
 [ext_resource type="Script" path="res://adjectives/adjective.gd" id="1_o47jw"]
 
-[node name="Adjective" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bmxie"]
+
+[node name="Adjective" type="RichTextLabel"]
 script = ExtResource("1_o47jw")
 
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
 theme_override_font_sizes/font_size = 20
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bmxie")

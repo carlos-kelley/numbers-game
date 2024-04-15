@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://dmlad60oq60bv"]
 
 [sub_resource type="GDScript" id="GDScript_cplbb"]
-script/source = "extends Node2D
+script/source = "extends VBoxContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -46,11 +46,15 @@ size = Vector2(648, 161.25)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tgdb3"]
 size = Vector2(648, 184.25)
 
-[node name="Field" type="Node2D"]
-position = Vector2(325, 97)
+[node name="Field" type="VBoxContainer"]
+offset_left = 325.0
+offset_top = 97.0
+offset_right = 325.0
+offset_bottom = 97.0
 script = SubResource("GDScript_cplbb")
 
-[node name="P2Hand" type="Area2D" parent="."]
+[node name="P2Hand" type="HBoxContainer" parent="."]
+layout_mode = 2
 script = SubResource("GDScript_1uvyo")
 
 [node name="Sprite2D" type="Sprite2D" parent="P2Hand"]
@@ -64,8 +68,8 @@ position = Vector2(1, -19)
 shape = SubResource("RectangleShape2D_6fqi0")
 debug_color = Color(1, 0.00392157, 0.0588235, 0.419608)
 
-[node name="P2Lane1" type="Area2D" parent="."]
-collision_layer = 2
+[node name="P2Lane1" type="HBoxContainer" parent="."]
+layout_mode = 2
 script = SubResource("GDScript_1uvyo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="P2Lane1"]
@@ -76,11 +80,12 @@ debug_color = Color(0.839216, 0.384314, 0, 0.419608)
 [node name="Sprite2D" type="Sprite2D" parent="P2Lane1"]
 self_modulate = Color(0.858824, 0.380392, 0, 1)
 position = Vector2(0.816483, 147.374)
-scale = Vector2(-645.86, -159.232)
+rotation = -3.14159
+scale = Vector2(645.86, 159.232)
 texture = SubResource("CanvasTexture_6nf1f")
 
-[node name="P2Lane2" type="Area2D" parent="."]
-collision_layer = 2
+[node name="P2Lane2" type="HBoxContainer" parent="."]
+layout_mode = 2
 script = SubResource("GDScript_1uvyo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="P2Lane2"]
@@ -91,10 +96,12 @@ debug_color = Color(0.960784, 0.709804, 0.0470588, 0.419608)
 [node name="Sprite2D" type="Sprite2D" parent="P2Lane2"]
 self_modulate = Color(0.741176, 0.580392, 0, 1)
 position = Vector2(0.816498, 320.961)
-scale = Vector2(-645.86, -186.407)
+rotation = -3.14159
+scale = Vector2(645.86, 186.407)
 texture = SubResource("CanvasTexture_6nf1f")
 
-[node name="P1Hand" type="Area2D" parent="."]
+[node name="P1Hand" type="HBoxContainer" parent="."]
+layout_mode = 2
 script = SubResource("GDScript_1uvyo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="P1Hand"]
@@ -105,11 +112,12 @@ debug_color = Color(0.321569, 0.501961, 0.964706, 0.419608)
 [node name="Sprite2D" type="Sprite2D" parent="P1Hand"]
 self_modulate = Color(0.117647, 0.188235, 0.517647, 1)
 position = Vector2(0.816498, 967.353)
-scale = Vector2(-645.86, -157.622)
+rotation = -3.14159
+scale = Vector2(645.86, 157.622)
 texture = SubResource("CanvasTexture_6nf1f")
 
-[node name="P1Lane1" type="Area2D" parent="."]
-collision_layer = 2
+[node name="P1Lane1" type="HBoxContainer" parent="."]
+layout_mode = 2
 script = SubResource("GDScript_1uvyo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="P1Lane1"]
@@ -120,11 +128,12 @@ debug_color = Color(0.356863, 0.607843, 0.290196, 0.419608)
 [node name="Sprite2D" type="Sprite2D" parent="P1Lane1"]
 self_modulate = Color(0.388235, 0.611765, 0.298039, 1)
 position = Vector2(0.816498, 804.374)
-scale = Vector2(-645.86, -159.232)
+rotation = -3.14159
+scale = Vector2(645.86, 159.232)
 texture = SubResource("CanvasTexture_6nf1f")
 
-[node name="P1Lane2" type="Area2D" parent="."]
-collision_layer = 2
+[node name="P1Lane2" type="HBoxContainer" parent="."]
+layout_mode = 2
 script = SubResource("GDScript_1uvyo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="P1Lane2"]
@@ -135,5 +144,6 @@ debug_color = Color(0.247059, 0.866667, 0.756863, 0.419608)
 [node name="Sprite2D" type="Sprite2D" parent="P1Lane2"]
 self_modulate = Color(0.8, 0.427451, 0.878431, 1)
 position = Vector2(0.816498, 624.961)
-scale = Vector2(-645.86, -186.407)
+rotation = -3.14159
+scale = Vector2(645.86, 186.407)
 texture = SubResource("CanvasTexture_6nf1f")

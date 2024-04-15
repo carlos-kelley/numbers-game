@@ -11,11 +11,13 @@
       "project": "${workspaceFolder}",
       "port": 6007,
       "debugServer": 6006,
+      "scene": "main",
       "address": "127.0.0.1",
       "debug_collisions": false,
       "debug_paths": false,
       "debug_navigation": false,
       "additional_options": ""
     }
+    
   ]
 }
